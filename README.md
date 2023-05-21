@@ -1,5 +1,5 @@
 # ProcOpen-PHP-Webshell
-php WEBSHELL when most of the system/exec commands are blacklisted
+php WEBSHELL when most of the system/exec functions are blacklisted
 
 
 # Simple PHP Webshell
